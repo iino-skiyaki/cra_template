@@ -22,6 +22,6 @@ jobs:
         run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
 
       - name: Run JavaScript to show branch name
-        run: node ./github/scripts/hello.js
+        run: node ./actions_job/hello.js
         env:
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
