@@ -10,22 +10,25 @@ const event = require(eventPath);
 // PRのコミット情報を取得
 const commits = event.pull_request.commits;
 
-if (commits > 0) {
-  // すべてのコミットに対して情報を取得
-  for (let i = 0; i < commits; i++) {
-    const commitSha = event.pull_request.commits[i].sha;
+console.log('全てのコミット情報を取得します。');
+console.log(commits)
 
-    // git showコマンドを実行して変更内容を取得
-    const commitMessage = execSync(`git log -1 --pretty=format:%s ${commitSha}`).toString();
-    const commitTimestamp = execSync(`git log -1 --pretty=format:%cd ${commitSha}`).toString();
-    const changes = execSync(`git show --pretty="" --name-status ${commitSha}`).toString();
+// if (commits > 0) {
+//   // すべてのコミットに対して情報を取得
+//   for (let i = 0; i < commits; i++) {
+//     const commitSha = event.pull_request.commits[i].sha;
 
-    console.log(`--- Commit Information for ${commitSha} ---`);
-    console.log(`Date: ${commitTimestamp}`);
-    console.log(`Message: ${commitMessage}`);
-    console.log(`Changes:\n${changes}`);
-    console.log('----------------------------------------\n');
-  }
-} else {
-  console.log('No commits found in the PR.');
-}
+//     // git showコマンドを実行して変更内容を取得
+//     const commitMessage = execSync(`git log -1 --pretty=format:%s ${commitSha}`).toString();
+//     const commitTimestamp = execSync(`git log -1 --pretty=format:%cd ${commitSha}`).toString();
+//     const changes = execSync(`git show --pretty="" --name-status ${commitSha}`).toString();
+
+//     console.log(`--- Commit Information for ${commitSha} ---`);
+//     console.log(`Date: ${commitTimestamp}`);
+//     console.log(`Message: ${commitMessage}`);
+//     console.log(`Changes:\n${changes}`);
+//     console.log('----------------------------------------\n');
+//   }
+// } else {
+//   console.log('No commits found in the PR.');
+// }
