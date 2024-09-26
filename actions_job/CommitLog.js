@@ -14,12 +14,24 @@ console.log('全てのコミット情報を取得します。');
 console.log(commits)
 
 if (commits > 0) {
+  const startCommitSha = event.pull_request.base.sha;
+  const endCommitSha = event.pull_request.head.sha;
+
+  try {
+    // git logを使ってコミットのハッシュを取得
+    const commitHashes = execSync(`git log --pretty=format:"%H" ${startCommitSha}..${endCommitSha}`)
+      .toString()
+      .trim()
+      .split('\n'); // 各行を配列に変換
+  
+    // 取得したコミットハッシュをログに出力
+    console.log('Commit Hashes:', commitHashes);
+  } catch (error) {
+    console.error('Error retrieving commit hashes:', error.message);
+  }
   // すべてのコミットに対して情報を取得
   for (let i = 0; i < commits; i++) {
-    const commitSha = event.pull_request.base.sha;
-    const afterSha = event.pull_request.head.sha;
 
-    console.log(`commitSha: ${(commitSha)} ~~ afterSha: ${(afterSha)}`)
 
     // // git showコマンドを実行して変更内容を取得
     // const commitMessage = execSync(`git log -1 --pretty=format:%s ${commitSha}`).toString();
