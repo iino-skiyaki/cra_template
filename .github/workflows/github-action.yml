@@ -25,3 +25,8 @@ jobs:
         run: node ./actions_job/hello.js
         env:
           BRANCH_NAME: ${{ env.BRANCH_NAME }}
+
+      - name: Run JS script to log commit info
+        run: node ./actions_job/CommitLog.js
+        env:
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
