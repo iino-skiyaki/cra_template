@@ -8,7 +8,7 @@ const eventPath = process.env.GITHUB_EVENT_PATH;
 const event = require(eventPath);
 
 // PRのコミット情報を取得
-const commits = event.pull_request.repository;
+const commits = event.repository;
 
 console.log('全てのコミット情報を取得します。');
 console.log(JSON.stringify(commits, null, 2));
