@@ -16,7 +16,7 @@ console.log(commits)
 if (commits > 0) {
   // すべてのコミットに対して情報を取得
   for (let i = 0; i < commits; i++) {
-    const commitSha = event.pull_request.commits[i]
+    const commitSha = event.pull_request.commits
 
     console.log(`commitSha: ${commitSha}`)
 
