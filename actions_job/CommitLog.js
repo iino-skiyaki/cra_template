@@ -16,6 +16,8 @@ console.log(commits)
 if (commits > 0) {
   const startCommitSha = event.pull_request.base.sha;
   const endCommitSha = event.pull_request.head.sha;
+  console.log('Start Commit:', startCommitSha);
+  console.log('End Commit:', endCommitSha);
 
   try {
     // git logを使ってコミットのハッシュを取得
