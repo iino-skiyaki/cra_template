@@ -1,14 +1,38 @@
-// scripts/log-pr-commit-info.js
-const { execSync } = require('child_process');
+const { Octokit } = require("@octokit/rest");
 
-// 環境変数からイベントデータを取得
-const eventPath = process.env.GITHUB_EVENT_PATH;
+async function getPRCommits() {
+  const token = process.env.GITHUB_TOKEN;
+  const octokit = new Octokit({ auth: token });
 
-// イベントデータを読み込む
-const event = require(eventPath);
+  // GitHub Actionsのコンテキストからリポジトリ情報を取得
+  const repo = process.env.GITHUB_REPOSITORY; // owner/repo
+  const [owner, repoName] = repo.split('/');
+  const pullNumber = process.env.GITHUB_EVENT_PULL_REQUEST_NUMBER;
 
-// PRのコミット情報を取得
-const commits = event.repository;
+  try {
+    // PRのコミット情報を取得
+    const { data: commits } = await octokit.pulls.listCommits({
+      owner,
+      repo: repoName,
+      pull_number: pullNumber,
+    });
 
-console.log('全てのコミット情報を取得します。');
-console.log(JSON.stringify(commits, null, 2));
+    // 各コミットの詳細情報を表示
+    commits.forEach(commit => {
+      console.log('Commit message:', commit.commit.message);
+      console.log('Author:', commit.commit.author.name);
+      console.log('Date:', commit.commit.author.date);
+      console.log('Changed files:');
+
+      commit.files.forEach(file => {
+        console.log(`- ${file.filename}`);
+      });
+
+      console.log('-----------------------------------');
+    });
+  } catch (error) {
+    console.error('Error fetching PR commits:', error);
+  }
+}
+
+getPRCommits();
