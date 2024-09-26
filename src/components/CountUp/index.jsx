@@ -14,12 +14,14 @@ const CountUp = () => {
     setIsCountChanged(true)
     countChangedTimerRef.ref = setTimeout(() => {
       setIsCountChanged(false)
-    }, 200)
+    }, 400)
   };
 
   return (
     <div>
-      <p className={`count ${isCountChanged?'changed' : ''}`}>{count}</p>
+      <div className={`countBackground ${isCountChanged?'changed' : ''}`}>
+        <p className={`count ${isCountChanged?'changed' : ''}`}>{count}</p>
+      </div>
       <button onClick={handleClick}>Click me</button>
     </div>
   );
