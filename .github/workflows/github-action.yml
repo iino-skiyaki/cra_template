@@ -42,6 +42,15 @@ jobs:
         run: |
           gh pr view ${{ env.PR_NUMBER }} --json commits > pr_commits.json
 
+      - name: Fetch PR diff
+        run: |
+          gh pr diff ${{ env.PR_NUMBER }} > pr_diff.txt
+        # PRの差分（diff）を `pr_diff.txt` に保存
+        
+      - name: Fetch file changes in PR
+        run: |
+          gh api repos/${{ github.repository }}/pulls/${{ env.PR_NUMBER }}/files > pr_files.json
+
       - name: Get branch name
         run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
 
