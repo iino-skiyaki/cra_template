@@ -16,9 +16,10 @@ console.log(commits)
 if (commits > 0) {
   // すべてのコミットに対して情報を取得
   for (let i = 0; i < commits; i++) {
-    const commitSha = JSON.stringify(event.pull_request, null, 2)
+    const commitSha = event.pull_request.base.sha;
+    const afterSha = event.pull_request.head.sha;
 
-    console.log(`commitSha: ${(commitSha)}`)
+    console.log(`commitSha: ${(commitSha)} ~~ afterSha: ${(afterSha)}`)
 
     // // git showコマンドを実行して変更内容を取得
     // const commitMessage = execSync(`git log -1 --pretty=format:%s ${commitSha}`).toString();
