@@ -61,3 +61,11 @@ jobs:
 
       - name: Run JavaScript to show branch name
         run: node ./actions_job/handle_commits.js
+
+      - name: Comment on PR
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ### CI Results
+            - Tests: ${{ job.status }}
