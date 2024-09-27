@@ -1,6 +1,10 @@
 name: Run Make Pull Request Report
 on: pull_request
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   first-job:
     runs-on: ubuntu-latest
