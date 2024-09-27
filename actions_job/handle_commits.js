@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { execSync } = require('child_process');
 
 // コミット情報を読み込む
 fs.readFile('pr_commits.json', 'utf8', (err, commitData) => {
@@ -18,7 +19,7 @@ fs.readFile('pr_commits.json', 'utf8', (err, commitData) => {
         
         const fileChanges = JSON.parse(fileData);
         
-        // 各コミットに対してメッセージ、変更内容、コミッターをセットにする
+        // コミット詳細の配列を作成
         const commitDetails = commits.commits.map(commit => {
             // コミットメッセージ
             const message = commit.message;
@@ -26,19 +27,25 @@ fs.readFile('pr_commits.json', 'utf8', (err, commitData) => {
             // コミッター情報
             const author = commit.author.name;
 
-            // 変更内容（ファイル名と変更内容を抽出）
-            const changes = fileChanges.filter(file => file.sha === commit.oid)
+            // コミットハッシュ
+            const sha = commit.oid;
+
+            // 変更内容を抽出
+            const changes = fileChanges
+                .filter(file => file.sha === sha)
                 .map(file => ({
                     filename: file.filename,
                     status: file.status,
                     additions: file.additions,
-                    deletions: file.deletions
+                    deletions: file.deletions,
+                    patch: file.patch // patchをここに追加
                 }));
 
             return {
-                message,
-                author,
-                changes
+                message: message,
+                author: author,
+                change: changes, // 変更内容をここに格納
+                sha: sha // コミットハッシュをここに格納
             };
         });
 
