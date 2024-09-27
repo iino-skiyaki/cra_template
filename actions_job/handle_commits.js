@@ -25,7 +25,7 @@ fs.readFile('pr_commits.json', 'utf8', (err, commitData) => {
             const message = commit.message;
 
             // コミッター情報
-            const author = commit.author.name;
+            const author = commit.author?.name || 'Unknown';
 
             // コミットハッシュ
             const sha = commit.oid;
