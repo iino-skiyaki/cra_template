@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from'fs';
 
 // コミット情報を読み込む
 fs.readFile('pr_commits.json', 'utf8', (err, commitData) => {
@@ -7,7 +7,6 @@ fs.readFile('pr_commits.json', 'utf8', (err, commitData) => {
         process.exit(1);
     }
 
-    const commits = JSON.parse(commitData);
     
     // 変更ファイル情報を読み込む
     fs.readFile('pr_files.json', 'utf8', (err, fileData) => {
