@@ -62,7 +62,7 @@ jobs:
         run: node ./actions_job/handle_commits.js
 
       - name: Run script to create video
-        run: node create_video.js
+        run: node ./actions_job/create_video.js
 
       - name: Upload video artifact
         uses: actions/upload-artifact@v3
