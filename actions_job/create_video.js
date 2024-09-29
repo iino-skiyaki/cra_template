@@ -1,5 +1,5 @@
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
-import fs from'fs';
+const fs = require('fs');
 
 const ffmpeg = createFFmpeg({ log: true });
 
