@@ -65,7 +65,7 @@ jobs:
         run: node create_video.js
 
       - name: Upload video artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: hello-world-video
           path: hello_world.mp4
