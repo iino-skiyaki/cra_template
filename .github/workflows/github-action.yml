@@ -59,12 +59,16 @@ jobs:
         run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
 
       - name: Run JavaScript to show branch name
-        run: node ./actions_job/hello.js
-        env:
-          BRANCH_NAME: ${{ env.BRANCH_NAME }}
-
-      - name: Run JavaScript to show branch name
         run: node ./actions_job/handle_commits.js
+
+      - name: Run script to create video
+        run: node create_video.js
+
+      - name: Upload video artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: hello-world-video
+          path: hello_world.mp4
 
       - name: Comment on PR
         uses: peter-evans/create-or-update-comment@v2
