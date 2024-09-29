@@ -20,12 +20,7 @@ fs.readFile('pr_commits.json', 'utf8', (err, commitData) => {
         // 変更されたファイル毎に変更内容を配列にする
         const fileChangesMap = fileChanges.map(file => ({
             fileName: file.filename,
-            change: {
-                status: file.status,
-                additions: file.additions,
-                deletions: file.deletions,
-                patch: file.patch // 変更内容 (パッチ情報)
-            }
+            change: file.patch // 変更内容 (パッチ情報)
         }));
 
         // 変更されたファイル毎の変更内容配列をログ出力
