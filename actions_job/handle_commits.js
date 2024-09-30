@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 // コミット情報を読み込む
 fs.readFile('pr_commits.json', 'utf8', (err, commitData) => {
