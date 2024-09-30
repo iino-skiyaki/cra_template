@@ -1,13 +1,20 @@
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+const ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath(ffmpegPath);
 
-import fs from 'fs';
+const fontPath = './NotoSansJP-VariableFont_wght.ttf';
 
-const ffmpeg = createFFmpeg({ log: true });
-
-(async () => {
-  await ffmpeg.load();
-  ffmpeg.FS('writeFile', 'input.txt', new TextEncoder().encode('HelloWorld'));
-  await ffmpeg.run('-f', 'lavfi', '-i', 'color=c=blue:s=1280x720:d=5', '-vf', 'drawtext=fontfile=/path/to/font.ttf:textfile=input.txt:fontcolor=white:fontsize=60:x=(w-text_w)/2:y=(h-text_h)/2', 'output.mp4');
-  const data = ffmpeg.FS('readFile', 'output.mp4');
-  fs.writeFileSync('hello_world.mp4', Buffer.from(data));
-})();
+ffmpeg()
+  .input('color=blue:size=1280x720:rate=25')
+  .inputFormat('lavfi')
+  .duration(5)
+  .outputOptions([
+    '-vf', `drawtext=text=''ヘロー'':fontcolor=white:fontsize=100:x=(w-tw)/2:y=(h-th)/2:fontfile='${fontPath}'`
+  ])
+  .on('end', () => {
+    console.log('動画生成が完了しました。');
+  })
+  .on('error', (err) => {
+    console.error('エラーが発生しました: ' + err.message);
+  })
+  .save('output.mp4');
