@@ -2,6 +2,7 @@
   "name": "sample_react-project",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@ffmpeg/util": "^0.12.1",
     "@octokit/rest": "^18.0.0",
