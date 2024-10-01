@@ -36,7 +36,7 @@ ffmpeg()
       outputs: '[bg_with_marisa]',
       options: {
         x: 0,
-        y: '(main_h-overlay_h) - (overlay_h / 3) + 50*sin(2*PI*t/1)' // Marisaを上下に動かす
+        y: 'main_h-overlay_h'
       }
     },
     {
@@ -45,7 +45,7 @@ ffmpeg()
       outputs: '[bg_with_images]',
       options: {
         x: 'main_w-overlay_w',
-        y: '(main_h-overlay_h) - (overlay_h / 5) + 50*sin(2*PI*t/1)' // Reimuを上下に動かす
+        y: 'main_h-overlay_h'
       }
     },
     {
