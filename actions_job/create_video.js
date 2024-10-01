@@ -42,24 +42,24 @@ const script = [
   {
     speaker: 'reimu',
     words: 'こんにちは',
-    image: './path/to/image1.png'
+    image: './actions_job/screenshots/screenshots.png'
   },
   {
     speaker: 'marisa',
     words: 'こんばんは',
-    image: './path/to/image2.png'
+    image: './actions_job/screenshots/screenshots.png'
   }
 ];
 
 console.log(generateTextFilters(script));
 
-ffmpeg()
+const ffmpegCommand = ffmpeg()
   .input('color=blue:size=1280x720:rate=25') // 背景生成
   .inputFormat('lavfi')
   .input('./actions_job/images/Marisa.png') // 左端の画像
   .input('./actions_job/images/Reimu.png')  // 右端の画像
   .input('./actions_job/screenshots/screenshots.png') // 画面いっぱいに配置する画像
-  .duration(5) // 5秒間のビデオ
+  .duration(script.length * 2) // 5秒間のビデオ
   .complexFilter([
     {
       filter: 'scale',
@@ -134,4 +134,11 @@ ffmpeg()
   })
   .on('error', (err) => {
     console.error('エラーが発生しました: ' + err.message);
-  }).save('output.mp4');
+  })
+
+// スクリプトの各エントリの画像を事前に読み込む
+script.forEach(entry => {
+  ffmpegCommand.input(entry.image);
+});
+
+ffmpegCommand.save('output.mp4');
