@@ -74,11 +74,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const context = github.context;
+            const cont = github.context;
 
             // リポジトリ情報を取得
-            const repoOwner = context.payload.repository.owner.login;
-            const repoName = context.payload.repository.name;
+            const repoOwner = cont.payload.repository.owner.login;
+            const repoName = cont.payload.repository.name;
 
             const artifactName = 'PRのレビューをゆっくり解説';
             const artifactUrl = `https://github.com/${repoOwner}/${repoName}/actions/artifacts`;
@@ -87,7 +87,7 @@ jobs:
             await github.issues.createComment({
               owner: repoOwner,
               repo: repoName,
-              issue_number: context.issue.number,
+              issue_number: cont.issue.number,
               body: commentBody
             });
       
