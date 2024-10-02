@@ -70,35 +70,21 @@ jobs:
           name: PRのレビューをゆっくり解説
           path: output.mp4
           
-      # Install GitHub CLI
-      - name: Install GitHub CLI
-        run: |
-          sudo apt-get install gh -y
-
-      # Download the video (to prepare it for commenting)
-      - name: Download video artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: PRのレビューをゆっくり解説
-
-      # Install GitHub CLI
-      - name: Install GitHub CLI
-        uses: actions/setup-gh@v3
-
-      # Comment on the PR with the uploaded video link
-      - name: Comment on the PR
-        run: |
-          PR_URL=$(gh pr view ${{ github.event.pull_request.number }} --json url --jq '.url')
-          gh pr comment ${{ github.event.pull_request.number }} --body "Here is the review video: [PRのレビューをゆっくり解説](./output.mp4)"
-
-      # Optionally, you can remove the artifact after posting
-      - name: Remove uploaded artifact
-        run: rm output.mp4
-
       - name: Comment on PR
-        uses: peter-evans/create-or-update-comment@v2
+        uses: actions/github-script@v6
         with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            ### CI Results
-            - Tests: ${{ job.status }}
+          script: |
+            const artifactName = 'PRのレビューをゆっくり解説';
+            const artifactPath = 'output.mp4';
+            const context = github.context;
+
+            const artifactUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/artifacts`;
+            const commentBody = `動画ファイルがアップロードされました: [${artifactName}](${artifactUrl})`;
+
+            await github.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: commentBody
+            });
+
+      
