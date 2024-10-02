@@ -61,14 +61,14 @@ jobs:
       - name: Run JavaScript to show branch name
         run: node ./actions_job/handle_commits.js
 
-      # - name: Run script to create video
-      #   run: node ./actions_job/create_video.js
+      - name: Run script to create video
+        run: node ./actions_job/create_video.js
 
-      # - name: Upload video artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: hello-world-video
-      #     path: hello_world.mp4
+      - name: Upload video artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: PRのレビューをゆっくり解説
+          path: output.mp4
 
       - name: Comment on PR
         uses: peter-evans/create-or-update-comment@v2
