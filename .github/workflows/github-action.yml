@@ -74,17 +74,20 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const artifactName = 'PRのレビューをゆっくり解説';
-            const artifactPath = 'output.mp4';
-            const con = github.context;
+            const context = github.context;
 
-            const artifactUrl = `https://github.com/${con.repo.owner}/${con.repo.repo}/actions/artifacts`;
+            // リポジトリ情報を取得
+            const repoOwner = context.payload.repository.owner.login;
+            const repoName = context.payload.repository.name;
+
+            const artifactName = 'PRのレビューをゆっくり解説';
+            const artifactUrl = `https://github.com/${repoOwner}/${repoName}/actions/artifacts`;
             const commentBody = `動画ファイルがアップロードされました: [${artifactName}](${artifactUrl})`;
 
             await github.issues.createComment({
-              ...context.repo,
-              issue_number: con.issue.number,
+              owner: repoOwner,
+              repo: repoName,
+              issue_number: context.issue.number,
               body: commentBody
             });
-
       
