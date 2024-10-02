@@ -69,6 +69,11 @@ jobs:
         with:
           name: PRのレビューをゆっくり解説
           path: output.mp4
+          
+      # Install GitHub CLI
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-get install gh -y
 
       # Download the video (to prepare it for commenting)
       - name: Download video artifact
