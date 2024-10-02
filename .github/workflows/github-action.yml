@@ -69,21 +69,21 @@ jobs:
         with:
           name: PRのレビューをゆっくり解説
           path: output.mp4
-          
+
       - name: Comment on PR
         uses: actions/github-script@v6
         with:
           script: |
             const artifactName = 'PRのレビューをゆっくり解説';
             const artifactPath = 'output.mp4';
-            const context = github.context;
+            const con = github.context;
 
-            const artifactUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/artifacts`;
+            const artifactUrl = `https://github.com/${con.repo.owner}/${con.repo.repo}/actions/artifacts`;
             const commentBody = `動画ファイルがアップロードされました: [${artifactName}](${artifactUrl})`;
 
             await github.issues.createComment({
-              ...context.repo,
-              issue_number: context.issue.number,
+              ...con.repo,
+              issue_number: con.issue.number,
               body: commentBody
             });
 
