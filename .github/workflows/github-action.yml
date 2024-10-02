@@ -82,7 +82,7 @@ jobs:
             const commentBody = `動画ファイルがアップロードされました: [${artifactName}](${artifactUrl})`;
 
             await github.issues.createComment({
-              ...con.repo,
+              ...context.repo,
               issue_number: con.issue.number,
               body: commentBody
             });
