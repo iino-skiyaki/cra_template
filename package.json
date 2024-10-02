@@ -1,7 +1,7 @@
 {
   "name": "sample_react-project",
   "version": "0.1.0",
-  "private": true
+  "private": true,
   "type": "module",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
