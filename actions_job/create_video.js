@@ -1,6 +1,9 @@
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-const ffmpeg = require('fluent-ffmpeg');
+import path from '@ffmpeg-installer/ffmpeg';
+import ffmpeg from 'fluent-ffmpeg';
+const ffmpegPath = path.path
 ffmpeg.setFfmpegPath(ffmpegPath);
+
+
 
 const fontPath = './DroidSansFallback.ttf';
 function generateTextFilters(script) {
@@ -23,7 +26,7 @@ function generateTextFilters(script) {
         borderw: 8,
         x: '(w-text_w)/2', // 画面幅の中央に配置
         y: '(h-text_h)-12', // 画面高さの中央に配置
-        enable: `between(t,${startTime},${startTime + 2})`, // 2秒ずつ表示
+        enable: `between(t,${startTime},${startTime + 3})`, // 2秒ずつ表示
       }
     };
     if (currentOutput) {
@@ -31,7 +34,7 @@ function generateTextFilters(script) {
     }
     filters.push(filter);
     previousOutput = currentOutput || previousOutput; // 次のフィルターの入力として使用
-    startTime += 2;
+    startTime += 3;
   });
 
   return filters;
@@ -40,26 +43,88 @@ function generateTextFilters(script) {
 // 使用例
 const script = [
   {
-    speaker: 'reimu',
-    words: 'こんにちは',
-    image: './actions_job/screenshots/screenshots.png'
+    "speaker": "marisa",
+    "words": "よし、コードレビュー始めるぜ。"
   },
   {
-    speaker: 'marisa',
-    words: 'こんばんは',
-    image: './actions_job/screenshots/screenshots.png'
+    "speaker": "reimu",
+    "words": "ゆっくりしていってね！"
+  },
+  {
+    "speaker": "marisa",
+    "words": "`src/App.js`で`CountUp`追加してるな。"
+  },
+  {
+    "speaker": "reimu",
+    "words": "新しいコンポーネント、面白いわね。"
+  },
+  {
+    "speaker": "marisa",
+    "words": "でも、`a`タグ削除はちょっと微妙じゃね？"
+  },
+  {
+    "speaker": "reimu",
+    "words": "リンクは消えたけど、使いやすくなったと思うよ。"
+  },
+  {
+    "speaker": "marisa",
+    "words": "`index.css`の`.count.changed`、派手すぎ。"
+  },
+  {
+    "speaker": "reimu",
+    "words": "虹色のアニメーション、楽しい感じで良いわ！"
+  },
+  {
+    "speaker": "marisa",
+    "words": "でも`400ms`は短すぎないか？目が疲れるぜ。"
+  },
+  {
+    "speaker": "reimu",
+    "words": "少し落ち着かせた方が見やすくなるかもね。"
+  },
+  {
+    "speaker": "marisa",
+    "words": "`index.jsx`で`countChangedTimerRef.ref`使いすぎだろ。"
+  },
+  {
+    "speaker": "reimu",
+    "words": "そこは整理したらもっと分かりやすくなるわね。"
+  },
+  {
+    "speaker": "marisa",
+    "words": "でも全体的にまだ荒いな。リファクタリング必須だぜ。"
+  },
+  {
+    "speaker": "reimu",
+    "words": "確かに、もう少し工夫すれば完璧よ！"
+  },
+  {
+    "speaker": "marisa",
+    "words": "じゃあ、今日はここまでだな。"
+  },
+  {
+    "speaker": "reimu",
+    "words": "うん、いい感じに仕上がると思うわ！"
+  },
+  {
+    "speaker": "marisa",
+    "words": "ご試聴、ありがとうございました！"
+  },
+  {
+    "speaker": "reimu",
+    "words": "また次回も楽しみにしててね！"
   }
-];
+]
 
 console.log(generateTextFilters(script));
 
-const ffmpegCommand = ffmpeg()
+ffmpeg()
   .input('color=blue:size=1280x720:rate=25') // 背景生成
   .inputFormat('lavfi')
   .input('./actions_job/images/Marisa.png') // 左端の画像
   .input('./actions_job/images/Reimu.png')  // 右端の画像
   .input('./actions_job/screenshots/screenshots.png') // 画面いっぱいに配置する画像
-  .duration(script.length * 2) // 5秒間のビデオ
+  .duration(script.length * 3) // 5秒間のビデオ
   .complexFilter([
     {
       filter: 'scale',
@@ -134,11 +199,4 @@ const ffmpegCommand = ffmpeg()
   })
   .on('error', (err) => {
     console.error('エラーが発生しました: ' + err.message);
-  })
-
-// スクリプトの各エントリの画像を事前に読み込む
-script.forEach(entry => {
-  ffmpegCommand.input(entry.image);
-});
-
-ffmpegCommand.save('output.mp4');
+  }).save('output.mp4');
