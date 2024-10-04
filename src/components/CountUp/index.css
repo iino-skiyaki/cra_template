@@ -1,0 +1,55 @@
+.count {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.count.changed {
+  animation: rainbow 400ms infinite;
+}
+
+@keyframes rainbow {
+  0% { 
+    color: red; 
+    filter: brightness(1);
+  }
+  14% { color: orange; }
+  28% {
+    color: yellow; 
+    filter: brightness(1.5);
+  }
+  42% { color: green; }
+  57% { color: blue; }
+  71% { color: indigo; }
+  85% { color: violet; }
+  100% {
+    color: red;
+    filter: brightness(1);
+  }
+}
+
+.countBackground {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countBackground.changed {
+  animation: glow-animation 400ms infinite;
+}
+
+@keyframes glow-animation {
+  0% {
+    background: radial-gradient(circle, rgba(256, 256, 256, 0.8) 0%, rgba(256, 256, 256, 0) 50%);
+  }
+  50% {
+    background: radial-gradient(circle, rgba(256, 256, 256, 0.5) 0%, rgba(256, 256, 256, 0) 80%);
+  }
+  100% {
+    background: radial-gradient(circle, rgba(256, 256, 256, 0.8) 0%, rgba(256, 256, 256, 0) 50%);
+  }
+}
